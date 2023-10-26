@@ -17,7 +17,7 @@ I anticipate that QR Coder will be used by people in marketing or public relatio
 
 Primary database: Users (id, username, hashed password, email, first_name, last_name)
 -> One to many
-QR database: QrCodes (id, code, user_id)
+QR database: QrCodes (id, code jpg, preferences[?] user_id)
 
 #### Issues
 
