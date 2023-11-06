@@ -15,11 +15,11 @@ app.config['SECRET_KEY'] = "shhhh"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 # debug = DebugToolbarExtension(app)
 
-# connect_db(app)
-# app.app_context().push()
-# db.create_all()
+connect_db(app)
+app.app_context().push()
+db.create_all()
 
-# bcrypt = Bcrypt()
+bcrypt = Bcrypt()
 
 
 # Main page
@@ -52,9 +52,9 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         
-        session["username"] = new_user.username
+        session["user_id"] = new_user.id
         
-        return redirect(f'/users/{new_user.username}')
+        return redirect(f'/users/{new_user.id}')
     else:
         return render_template("register.html", form=form)
 
@@ -74,9 +74,9 @@ def login():
         
         if user and bcrypt.check_password_hash(user.password, password):
             
-            session["username"] = user.username
+            session["user_id"] = user.id
             
-            return redirect(f'/users/{username}')
+            return redirect(f'/users/{user.id}')
         
         else:
             form.username.errors = ["Invalid username or password."]
@@ -86,32 +86,30 @@ def login():
 
 
 
-@app.route('/')
-def desk():
-    """Register page."""
+@app.route('/users/<user_id>')
+def user(user_id):
+    """User page."""
     
-    user = User.query.get_or_404(1)
+    print(session)
     
-    rooms = []
-    for room in user.rooms:
-        rooms.append(room.name)
-    events = (Event
-              .query
-              .filter(Event.room.in_(rooms))
-              .order_by(Event.datetime.desc())
-              .limit(100)
-              .all())
+    if "user_id" not in session:
+        flash("Please log in first!")
+        
+        return redirect('/login')
     
-    return render_template("desk.html", user=user, events=events)
+    if int(user_id) != session["user_id"]:
+        
+        print(f"page id: {user_id}")
+        print(f"session id: {int(session['user_id'])}")
+        
+        flash("You can only access your own user page.")
+        
+        return redirect('/login')
+    
+    user = User.query.get_or_404(user_id)
+    
+    return render_template("user.html", user=user)
 
-
-@app.route('/floorplan')
-def floorplan():
-    """User floorplan."""
-    
-    user = User.query.get_or_404(1)
-    
-    return render_template("floorplan.html", user=user)
 
 
 @app.route('/roomz/<room_id>')
@@ -141,3 +139,11 @@ def room(room_id):
     
     return render_template("room.html", user=user, room=room, teammates=teammates, events=events)
 
+@app.route('/logout')
+def logout():
+    """Logout route."""
+    
+    if "user_id" in session:
+        session.pop("user_id")
+    
+    return redirect('/login')

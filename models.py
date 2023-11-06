@@ -29,8 +29,10 @@ class User(db.Model):
                            nullable=False)
     last_name = db.Column(db.String(30),
                           nullable=False)
-    codes = db.relationship("Code",
-                            back_populates='codes')
+    password = db.Column(db.String(),
+                         nullable=False)
+    
+    codes = db.relationship("Code")
         
     def __repr__(self):
         return f"<User {self.id} {self.username} {self.first_name} {self.last_name} {self.codes} >"
@@ -73,8 +75,8 @@ class Code(db.Model):
     logo_size = db.Column(db.Float,
                         nullable=True)
     
-    user = db.Column(db.Integer,
-                     db.ForeignKey('user.id', ondelete='CASCADE'),
+    user_id= db.Column(db.Integer,
+                     db.ForeignKey('users.id', ondelete='CASCADE'),
                      nullable=False)
     
     def __repr__(self):

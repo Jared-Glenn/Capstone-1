@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Welcome, {{ user.first_name }}</h1>
+
+<p>User: {{ user.first_name }} {{ user.last_name }}</p>
+<p>Username: {{ user.username }}</p>
+<p>Email: {{ user.email }}</p>
+
+
+<h3>Created Codes:</h3>
+
+{% for code in user.codes %}
+
+<img src="{{ code.completed_code }}" alt="">
+
+{% endfor %}
+
+{% endblock %}
