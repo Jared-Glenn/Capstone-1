@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FloatField
+from wtforms import StringField, PasswordField, FloatField, IntegerField
 from wtforms.validators import InputRequired, Optional, AnyOf, URL, NumberRange, Length
 
 class RegisterForm(FlaskForm):
@@ -27,41 +27,30 @@ class LoginForm(FlaskForm):
 class CodeForm(FlaskForm):
     """Form for providing feedback from a specific user."""
     
-    title = StringField("Title",
-                           validators=[Length(max=100, message="Title maximum length is 100 characters.")])
-    content = StringField("Feedback Content")
+    text = StringField("Code Text / Link",
+                           validators=[InputRequired()])
+    size = IntegerField("Size (Optional)",
+                       validators=[Optional()])
+    logo_size = FloatField("Size of Logo (Optional)",
+                       validators=[Optional()])
+    logo_url = StringField("URL for the Logo (Optional)",
+                       validators=[Optional()])
+    gradient_type = StringField("Gradient Type (Optional)",
+                       validators=[Optional()])
+    block_style = StringField("Block Style (Optional)",
+                       validators=[Optional()])
+    gradient = IntegerField("Gradient (Optional)",
+                       validators=[Optional()])
+    gradient_color_start = StringField("Starting Gradient Color Hex (Optional)",
+                       validators=[Optional()])
+    gradient_color_end = StringField("Ending Gradient Color Hex (Optional)",
+                       validators=[Optional()])
+    fg_color = StringField("Foreground Color Hex (Optional)",
+                       validators=[Optional()])
+    bg_color = StringField("Background Color Hex (Optional)",
+                       validators=[Optional()])
+    eye_style = StringField("Eye Style (Optional)",
+                       validators=[Optional()])
+    validate = IntegerField("Number of Validations (Optional)",
+                       validators=[Optional()])
     
-
-
-    # text = db.Column(db.String(),
-    #         nullable=False)
-    # completed_code = db.Column(db.String(),
-    #                            nullable=False)
-    # size = db.Column(db.Integer,
-    #                 nullable=True)
-    # logo_url = db.Column(db.String(),
-    #                     nullable=True)
-    # gradient_type = db.Column(db.String(),
-    #                           nullable=True)
-    # block_style = db.Column(db.Integer,
-    #                         nullable=True)
-    # gradient = db.Column(db.Integer,
-    #                     nullable=True)
-    # gradient_color_start = db.Column(db.String(10),
-    #                                 nullable=True)
-    # gradient_color_end = db.Column(db.String(10),
-    #                                 nullable=True)
-    # fg_color = db.Column(db.String(10),
-    #                     nullable=True)
-    # bg_color = db.Column(db.String(10),
-    #                     nullable=True)
-    # eye_style = db.Column(db.String(),
-    #                         nullable=True)
-    # validate = db.Column(db.Integer,
-    #                     nullable=True)
-    # logo_size = db.Column(db.Float,
-    #                     nullable=True)
-    
-    # user_id= db.Column(db.Integer,
-    #                  db.ForeignKey('users.id', ondelete='CASCADE'),
-    #                  nullable=False)
