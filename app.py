@@ -3,8 +3,10 @@
 from flask import Flask, request, render_template, redirect, jsonify, session, flash
 # from flask_debugtoolbar import DebugToolbarExtension
 from flask_bcrypt import Bcrypt
+import requests
+import asyncio
 from models import db, connect_db, User, Code
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, CodeForm
 
 app = Flask(__name__)
 
@@ -89,8 +91,7 @@ def login():
 @app.route('/users/<user_id>')
 def user(user_id):
     """User page."""
-    
-    print(session)
+
     
     if "user_id" not in session:
         flash("Please log in first!")
@@ -112,32 +113,76 @@ def user(user_id):
 
 
 
-@app.route('/roomz/<room_id>')
-def room(room_id):
-    """Room."""
+@app.route('/new-code/<user_id>')
+def room(user_id):
+    """Route for creating a new code."""
     
-    user = User.query.get_or_404(1)
-    room = Room.query.get_or_404(room_id)
+    form = CodeForm()
     
-    # Get all teammates.
-    teammate_list = (User_Room
-                 .query
-                 .filter(User_Room.room_id == room_id)
-                 .limit(10)
-                 .all())
+    if form.validate_on_submit():
+        text = form.username.data
+        completed_code = form.password.data
+        
+        user = User.query.get_or_404(user_id)
+        
+        if user and bcrypt.check_password_hash(user.password, password):
+            
+            session["user_id"] = user.id
+            
+            return redirect(f'/users/{user.id}')
+        
+        else:
+            form.username.errors = ["Invalid username or password."]
+            
+    return render_template("new_code.html", form=form)
+
+
+    # text = db.Column(db.String(),
+    #         nullable=False)
+    # completed_code = db.Column(db.String(),
+    #                            nullable=False)
+    # size = db.Column(db.Integer,
+    #                 nullable=True)
+    # logo_url = db.Column(db.String(),
+    #                     nullable=True)
+    # gradient_type = db.Column(db.String(),
+    #                           nullable=True)
+    # block_style = db.Column(db.Integer,
+    #                         nullable=True)
+    # gradient = db.Column(db.Integer,
+    #                     nullable=True)
+    # gradient_color_start = db.Column(db.String(10),
+    #                                 nullable=True)
+    # gradient_color_end = db.Column(db.String(10),
+    #                                 nullable=True)
+    # fg_color = db.Column(db.String(10),
+    #                     nullable=True)
+    # bg_color = db.Column(db.String(10),
+    #                     nullable=True)
+    # eye_style = db.Column(db.String(),
+    #                         nullable=True)
+    # validate = db.Column(db.Integer,
+    #                     nullable=True)
+    # logo_size = db.Column(db.Float,
+    #                     nullable=True)
     
-    teammate_ids = []
-    for teammate in teammate_list:
-        teammate_ids.append(teammate.user_id)
-    
-    teammates = (User
-                .query
-                .filter(User.id.in_(teammate_ids))
-                .all())
-    
-    events = Event.query.filter(Event.room==room.name)
-    
-    return render_template("room.html", user=user, room=room, teammates=teammates, events=events)
+    # user_id= db.Column(db.Integer,
+    #                  db.ForeignKey('users.id', ondelete='CASCADE'),
+    #                  nullable=False)
+
+
+
+
+
+@app.route('/test', methods=['GET'])
+async def index():
+    result = await hello()
+    return jsonify({"result": result})
+
+async def hello():
+    response = await asyncio.to_thread(requests.get, "https://pokeapi.co/api/v2/ability/1/")
+    return response.json()
+
 
 @app.route('/logout')
 def logout():
