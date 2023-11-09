@@ -113,41 +113,155 @@ def user(user_id):
 
 
 
-@app.route('/new-code/<user_id>')
-def room(user_id):
+@app.route('/new-code/<user_id>', methods=["GET", "POST"])
+async def new_code(user_id):
     """Route for creating a new code."""
     
     form = CodeForm()
     
     user = User.query.get_or_404(user_id)
+
+    with open("static/codes/response1.png", 'rb') as f:
+        print(f)
     
     if form.validate_on_submit():
-        text = form.username.data
-        completed_code = form.password.data
+
+        text = form.text.data
         
-        user = User.query.get_or_404(user_id)
-        
-        if user and bcrypt.check_password_hash(user.password, password):
-            
-            session["user_id"] = user.id
-            
-            return redirect(f'/users/{user.id}')
-        
+        if form.size.data:
+            size = form.size.data
         else:
-            form.username.errors = ["Invalid username or password."]
+            size = None
+            
+        if form.logo_url.data:
+            logo_url = form.logo_url.data
+        else:
+            logo_url = None
+        
+        gradient_type = form.gradient_type.data
+        block_style = form.block_style.data
+        gradient = form.gradient.data
+        gradient_color_start = form.gradient_color_start.data
+        gradient_color_end = form.gradient_color_end.data
+        fg_color = form.fg_color.data
+        bg_color = form.bg_color.data
+        eye_style = form.eye_style.data
+        validate = form.validate.data
+        logo_size = form.logo_size.data
+        
+        form_dict = {'size': size,
+                    'logo_url': logo_url,
+                    'gradient_type': gradient_type,
+                    'block_style': block_style,
+                    'gradient': gradient,
+                    'gradient_color_start': gradient_color_start,
+                    'gradient_color_end': gradient_color_end,
+                    'fg_color': fg_color,
+                    'bg_color': bg_color,
+                    'eye_style': eye_style,
+                    'validate': validate,
+                    'logo_size': logo_size
+                     }
+        
+        print(form_dict)
+        
+        # completed_code = await create_code(text,
+        #                                    size=size,
+        #                                    logo_url=logo_url,
+        #                                    gradient_type=gradient_type,
+        #                                    block_style=block_style,
+        #                                    gradient=gradient,
+        #                                    gradient_color_start=gradient_color_start,
+        #                                    gradient_color_end=gradient_color_end,
+        #                                    fg_color=fg_color,
+        #                                    bg_color=bg_color,
+        #                                    eye_style=eye_style,
+        #                                    validate=validate,
+        #                                    logo_size=logo_size)
+        
+        # new_code = Code(text=text,
+        #                 completed_code=completed_code,
+        #                 size=size,
+        #                 logo_url=logo_url,
+        #                 gradient_type=gradient_type,
+        #                 block_style=block_style,
+        #                 gradient=gradient,
+        #                 gradient_color_start=gradient_color_start,
+        #                 gradient_color_end=gradient_color_end,
+        #                 fg_color=fg_color,
+        #                 bg_color=bg_color,
+        #                 eye_style=eye_style,
+        #                 validate=validate,
+        #                 logo_size=logo_size,
+        #                 user_id=user_id)
+        # db.session.add(new_code)
+        # db.session.commit()
+        
+        return redirect(f'/users/{user_id}')
+        
             
     return render_template("new_code.html", form=form, user=user)
 
 
 
-@app.route('/test', methods=['GET'])
-async def index():
-    result = await hello()
-    return jsonify({"result": result})
+async def create_code(text,
+                      size = 400,
+                      logo_url = 'https://cdn.auth0.com/blog/symfony-blog/logo.png',
+                      gradient_type = 'diagonal',
+                      block_style = 'square',
+                      gradient = '1',
+                      gradient_color_start = 'FF0000',
+                      gradient_color_end = '00FF00',
+                      fg_color = 'FF0000',
+                      bg_color = 'FFFFFF',
+                      eye_style = 'square',
+                      validate = '1',
+                      logo_size = '0.22'):
+    
+    print(f'text: {text}')
+    print(f'size: {size}')
+    print(f'logo_url: {logo_url}')
+    print(f'fg_color: {fg_color}')
+    print(f'bg_color: {bg_color}')
+    print(f'eye_style: {eye_style}')
+    print(f'validate: {validate}')
+    # response = await asyncio.to_thread(requests.get,
+    #                                    'https://qrcode-supercharged.p.rapidapi.com/',
+    #                                    params={
+    #                                        'text': text,
+    #                                        'size': size,
+    #                                        'logo_url': logo_url,
+    #                                        'gradient_type': gradient_type,
+    #                                        'block_style': block_style,
+    #                                        'gradient': gradient,
+    #                                        'gradient_color_start': gradient_color_start,
+    #                                        'gradient_color_end': gradient_color_end,
+    #                                        'fg_color': fg_color,
+    #                                        'bg_color': bg_color,
+    #                                        'eye_style': eye_style,
+    #                                        'validate': validate,
+    #                                        'logo_size': logo_size
+    #                                    },
+    #                                    headers={
+    #                                        'X-RapidAPI-Key': '39a572c804mshc607d739b32b3d7p1840eajsnb049ae15f5f7'
+    #                                    })
+    
+    # print(response.headers)
 
-async def hello():
-    response = await asyncio.to_thread(requests.get, "https://pokeapi.co/api/v2/ability/1/")
-    return response.json()
+    # with open(f'static/codes/{response.headers["qrcode-file"]}', 'wb') as f:
+    #     f.write(response.content)
+        
+    # return f'static/codes/{response.headers["qrcode-file"]}'
+    return 1
+
+# @app.route('/test', methods=['GET'])
+# async def index():
+#     result = await hello()
+#     return jsonify({"result": result})
+
+# async def hello():
+#     response = await asyncio.to_thread(requests.get, "https://pokeapi.co/api/v2/ability/1/")
+#     return response.json()
 
 
 @app.route('/logout')
