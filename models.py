@@ -37,7 +37,7 @@ class User(db.Model):
                             lazy=True)
         
     def __repr__(self):
-        return f"<User {self.id} {self.username} {self.first_name} {self.last_name} {self.codes} >"
+        return f"<User {self.id} {self.username} {self.email} {self.first_name} {self.last_name} {self.codes} >"
  
  
 class Code(db.Model):
