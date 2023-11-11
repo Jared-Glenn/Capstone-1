@@ -56,7 +56,8 @@ br {
 
 .topbar-right {
     position: absolute;
-    width: 100px;
+    top: 30px;
+    width: 300px;
     right: 80px;
 }
 
@@ -66,3 +67,24 @@ br {
     margin: 20px;
 }
 
+.form-label {
+    display: inline-block;
+    width: 200px;
+}
+
+.code-container {
+    float:left;
+    width: 250px;
+    margin: 50px;
+}
+
+.created-codes {
+    align-items: center;
+    width: 200px;
+    height: auto;
+}
+
+.code-text {
+    text-align: left;
+    font-size: 15px;
+}

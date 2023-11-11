@@ -11,8 +11,12 @@
            if field.widget.input_type != 'hidden' %}
   
       <p>
-        {{ field.label }}
-        {{ field }}
+        <span class="form-control">
+          {{ field.label(class="form-label") }}
+        </span>
+        <span class="form-control">
+          {{ field }}
+        </span>
   
         {% for error in field.errors %}
           {{ error }}

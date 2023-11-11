@@ -15,7 +15,10 @@
 
 {% for code in user.codes %}
 
-<img src="{{ code.completed_code }}" alt="">
+<div class="code-container">
+<img class="created-codes" src="{{ code.completed_code }}" alt="">
+<p class="code-text">{{ code.text }}</p>
+</div>
 
 {% endfor %}
 

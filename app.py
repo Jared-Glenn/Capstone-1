@@ -30,8 +30,13 @@ bcrypt = Bcrypt()
 def home():
     """User homepage. Redirects to Register."""
     
-    return redirect('/register')
-
+    if "user_id" not in session:
+        return redirect('/register')
+    
+    user_id = session["user_id"]
+    
+    return redirect(f'/users/{user_id}')
+    
 
 # Registration page
 
