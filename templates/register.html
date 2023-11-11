@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <div class="contaner">
-        {% for msg in get_flashed_messages() %}
-        <div class="alert alter-danger">{{ msg }}</div>
-        {% endfor %}
+{% extends 'base.html' %}
+
+{% block content %}
 
     <h2>Register Here:</h2>
 
@@ -37,5 +27,4 @@
       <p>Already have an account? <a href="/login">Login Here!</a></p>
     
 
-</body>
-</html>
+{% endblock %}

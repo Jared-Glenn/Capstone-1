@@ -4,18 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles/styles.css">
 </head>
 <body>
-        
+
+    <div class="topnav">
+        <div class="topnav-button">
+            <a href="/">
+                <p class="topbar-logo"><i class="fa-solid fa-vector-square"></i></p>
+                <p class="topbar-text">QR CodeR</p>
+                </a>
+        </div>
+        <div class="topnav-button">
+            <a href="/">
+            <p class="topbar-logo"><i class="fa-solid fa-house fa"></i></p>
+              <p class="topbar-text">Home</p>
+              </a>
+        </div>
+        <div class="topbar-right">
+        {% if user %}
+            <p>User: {{ user.username }} - <a href="/logout">logout</a></p>
+        {% else %}
+            <p>WORKING</p>
+        {% endif %}
+        </div>
+    </div>
+    
     <div class="contaner">
         {% for msg in get_flashed_messages() %}
         <div class="alert alter-danger">{{ msg }}</div>
         {% endfor %}
     
-    <p>User: {{ user.username }} - <a href="/logout">logout</a></p>
-
+    <div class="main-body">
     {% block content %}
     {% endblock %}
+    </div>
+
+    <script src="https://kit.fontawesome.com/bf5d049ab1.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
