@@ -32,7 +32,9 @@ class User(db.Model):
     password = db.Column(db.String(),
                          nullable=False)
     
-    codes = db.relationship("Code")
+    codes = db.relationship("Code",
+                            backref='user',
+                            lazy=True)
         
     def __repr__(self):
         return f"<User {self.id} {self.username} {self.first_name} {self.last_name} {self.codes} >"

@@ -127,132 +127,132 @@ async def new_code(user_id):
     if form.validate_on_submit():
 
         text = form.text.data
+        form_dict = {'text': text, 'validate':0}
         
         if form.size.data:
             size = form.size.data
+            form_dict["size"] = size
         else:
             size = None
             
         if form.logo_url.data:
             logo_url = form.logo_url.data
+            form_dict["logo_url"] = logo_url
         else:
             logo_url = None
         
-        gradient_type = form.gradient_type.data
-        block_style = form.block_style.data
-        gradient = form.gradient.data
-        gradient_color_start = form.gradient_color_start.data
-        gradient_color_end = form.gradient_color_end.data
-        fg_color = form.fg_color.data
-        bg_color = form.bg_color.data
-        eye_style = form.eye_style.data
-        validate = form.validate.data
-        logo_size = form.logo_size.data
+        if form.gradient_type.data:
+            gradient_type = form.gradient_type.data
+            form_dict["gradient_type"] = gradient_type
+        else:
+            gradient_type = None
         
-        form_dict = {'size': size,
-                    'logo_url': logo_url,
-                    'gradient_type': gradient_type,
-                    'block_style': block_style,
-                    'gradient': gradient,
-                    'gradient_color_start': gradient_color_start,
-                    'gradient_color_end': gradient_color_end,
-                    'fg_color': fg_color,
-                    'bg_color': bg_color,
-                    'eye_style': eye_style,
-                    'validate': validate,
-                    'logo_size': logo_size
-                     }
+        if form.block_style.data:
+            block_style = form.block_style.data
+            form_dict["block_style"] = block_style
+        else:
+            block_style = None
+            
+        if form.gradient.data:
+            gradient = form.gradient.data
+            form_dict["gradient"] = gradient
+        else:
+            gradient = None
+            
+        if form.gradient_color_start.data:
+            gradient_color_start = form.gradient_color_start.data
+            form_dict["gradient_color_start"] = gradient_color_start
+        else:
+            gradient_color_start = None
+            
+        if form.gradient_color_end.data:
+            gradient_color_end = form.gradient_color_end.data
+            form_dict["gradient_color_end"] = gradient_color_end
+        else:
+            gradient_color_end = None
+            
+        if form.fg_color.data:
+            fg_color = form.fg_color.data
+            form_dict["fg_color"] = fg_color
+        else:
+            fg_color = None
+            
+        if form.bg_color.data:
+            bg_color = form.bg_color.data
+            form_dict["bg_color"] = bg_color
+        else:
+            bg_color = None
+            
+        if form.eye_style.data:
+            eye_style = form.eye_style.data
+            form_dict["eye_style"] = eye_style
+        else:
+            eye_style = None
         
+        if form.validate.data:
+            validate = form.validate.data
+            form_dict["validate"] = validate
+        else:
+            validate = None
+            
+        if form.logo_size.data:
+            logo_size = form.logo_size.data
+            form_dict["logo_size"] = logo_size
+        else:
+            logo_size = None
+            
         print(form_dict)
         
-        # completed_code = await create_code(text,
-        #                                    size=size,
-        #                                    logo_url=logo_url,
-        #                                    gradient_type=gradient_type,
-        #                                    block_style=block_style,
-        #                                    gradient=gradient,
-        #                                    gradient_color_start=gradient_color_start,
-        #                                    gradient_color_end=gradient_color_end,
-        #                                    fg_color=fg_color,
-        #                                    bg_color=bg_color,
-        #                                    eye_style=eye_style,
-        #                                    validate=validate,
-        #                                    logo_size=logo_size)
+        completed_code = await create_code(form_dict)
+        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{completed_code}!!!!!!!!!!!!!!!!!!!')
         
-        # new_code = Code(text=text,
-        #                 completed_code=completed_code,
-        #                 size=size,
-        #                 logo_url=logo_url,
-        #                 gradient_type=gradient_type,
-        #                 block_style=block_style,
-        #                 gradient=gradient,
-        #                 gradient_color_start=gradient_color_start,
-        #                 gradient_color_end=gradient_color_end,
-        #                 fg_color=fg_color,
-        #                 bg_color=bg_color,
-        #                 eye_style=eye_style,
-        #                 validate=validate,
-        #                 logo_size=logo_size,
-        #                 user_id=user_id)
-        # db.session.add(new_code)
-        # db.session.commit()
+        new_code = Code(text=text,
+                        completed_code=completed_code,
+                        size=size,
+                        logo_url=logo_url,
+                        gradient_type=gradient_type,
+                        block_style=block_style,
+                        gradient=gradient,
+                        gradient_color_start=gradient_color_start,
+                        gradient_color_end=gradient_color_end,
+                        fg_color=fg_color,
+                        bg_color=bg_color,
+                        eye_style=eye_style,
+                        validate=validate,
+                        logo_size=logo_size,
+                        user_id=user_id)
+        
+        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{new_code}!!!!!!!!!!!!!!!!!!!')
+        
+        db.session.add(new_code)
+        db.session.commit()
         
         return redirect(f'/users/{user_id}')
         
-            
     return render_template("new_code.html", form=form, user=user)
 
 
 
-async def create_code(text,
-                      size = 400,
-                      logo_url = 'https://cdn.auth0.com/blog/symfony-blog/logo.png',
-                      gradient_type = 'diagonal',
-                      block_style = 'square',
-                      gradient = '1',
-                      gradient_color_start = 'FF0000',
-                      gradient_color_end = '00FF00',
-                      fg_color = 'FF0000',
-                      bg_color = 'FFFFFF',
-                      eye_style = 'square',
-                      validate = '1',
-                      logo_size = '0.22'):
+async def create_code(params):
+    response = await asyncio.to_thread(requests.get,
+                                       'https://qrcode-supercharged.p.rapidapi.com/',
+                                       params=params,
+                                       headers={
+                                           'X-RapidAPI-Key': '39a572c804mshc607d739b32b3d7p1840eajsnb049ae15f5f7'
+                                       })
     
-    print(f'text: {text}')
-    print(f'size: {size}')
-    print(f'logo_url: {logo_url}')
-    print(f'fg_color: {fg_color}')
-    print(f'bg_color: {bg_color}')
-    print(f'eye_style: {eye_style}')
-    print(f'validate: {validate}')
-    # response = await asyncio.to_thread(requests.get,
-    #                                    'https://qrcode-supercharged.p.rapidapi.com/',
-    #                                    params={
-    #                                        'text': text,
-    #                                        'size': size,
-    #                                        'logo_url': logo_url,
-    #                                        'gradient_type': gradient_type,
-    #                                        'block_style': block_style,
-    #                                        'gradient': gradient,
-    #                                        'gradient_color_start': gradient_color_start,
-    #                                        'gradient_color_end': gradient_color_end,
-    #                                        'fg_color': fg_color,
-    #                                        'bg_color': bg_color,
-    #                                        'eye_style': eye_style,
-    #                                        'validate': validate,
-    #                                        'logo_size': logo_size
-    #                                    },
-    #                                    headers={
-    #                                        'X-RapidAPI-Key': '39a572c804mshc607d739b32b3d7p1840eajsnb049ae15f5f7'
-    #                                    })
-    
-    # print(response.headers)
-
-    # with open(f'static/codes/{response.headers["qrcode-file"]}', 'wb') as f:
-    #     f.write(response.content)
+    if response.ok:
+        with open(f'static/codes/{response.headers["qrcode-file"]}', 'wb') as f:
+            f.write(response.content)
         
-    # return f'static/codes/{response.headers["qrcode-file"]}'
-    return 1
+        file_path = f'/static/codes/{response.headers["qrcode-file"]}'
+        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{file_path}!!!!!!!!!!!!!!!!!!!')
+        
+        return file_path
+    else:
+        print(f'!!!RESPONSE HEADERS: {response.raise_for_status()}')
+    
+
 
 # @app.route('/test', methods=['GET'])
 # async def index():

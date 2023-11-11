@@ -24,8 +24,14 @@ db.session.commit()
 
 # Add posts
 response = Code(text="https://google.com", completed_code="/static/codes/response1.png", user_id=1)
+response2 = Code(text="www.springboard.com", completed_code="/static/codes/generated8376631.png", user_id=1)
+response3 = Code(text="http://jaredglenn.herokuapp.com/", completed_code="/static/codes/generated6557772.png", user_id=1)
+response4 = Code(text="https://www.aonprd.com/", completed_code="/static/codes/generated2621530.png", user_id=1)
 
 db.session.add(response)
+db.session.add(response2)
+db.session.add(response3)
+db.session.add(response4)
 
 # Commit
 
