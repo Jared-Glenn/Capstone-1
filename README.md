@@ -53,110 +53,57 @@ Input as a hex color code. When a gradient has been selected, the color will end
 
 #### Foreground Color
 
-        <p class="documentation-text">
-            Input as a hex color code. Determines the color of the nodes for the 
-            output.
-        </p>
-        <p class="documentation-text"><strong>(Default = FF0000) </strong></p>
-        <br>
+Input as a hex color code. Determines the color of the nodes for the output.
+(Default = FF0000)
 
-    <h4>Background Color</h4>
+#### Background Color
 
-        <p class="documentation-text">
-            Input as a hex color code. Determines the color of the space between the 
-            nodes for the output.
-        </p>
-        <p class="documentation-text"><strong>(Default = FFFFFF) </strong></p>
-        <br>
+Input as a hex color code. Determines the color of the space between the nodes for the output.
+(Default = FFFFFF)
 
-    <h4>Eye Style</h4>
+#### Eye Style
 
-        <p class="documentation-text">
-            Choose between circle and square. Determines the shape of the larger exterior 
-            nodes that provide a focus for the camera.
-        </p>
-        <p class="documentation-text"><strong>(Default = None) </strong></p>
-        <br>
+Choose between circle and square. Determines the shape of the larger exterior nodes that provide a focus for the camera.
+(Default = None)
 
-    <h4>Validations</h4>
+#### Validations
 
-        <p class="documentation-text">
-            Determines how thorough you want the QR Code to be validated. This includes 
-            checks on its readability, color composition, and logo selection. The more validations you 
-            include, the more likely that your design will be rejected and not delivered by the API.
-        </p>
-        <p class="documentation-text"><strong>(Default = 0) </strong></p>
-        <br>
+Determines how thorough you want the QR Code to be validated. This includes checks on its readability, color composition, and logo selection. The more validations you include, the more likely that your design will be rejected and not delivered by the API.
+(Default = 0)
 
-    <h4>Logo Size</h4>
+#### Logo Size
 
-        <p class="documentation-text">
-            Determines how much space the logo will occupy in the code. For simple 
-            text inputs, the size of the logo may larger, but more complex URLs may struggle with 
-            larger logos.
-        </p>
-        <p class="documentation-text"><strong>(Default = 0.22) </strong></p>
-        <br>
+Determines how much space the logo will occupy in the code. For simple text inputs, the size of the logo may larger, but more complex URLs may struggle with larger logos.
+(Default = 0.22)
 
-<h2>Project Outline</h2>
+## Project Outline
 
-<h3>Schema</h3>
+### Schema
 
-    <p class="documentation-text"><strong>Users database:</strong> User (id, username, hashed password, 
-        email, first_name, last_name) -> One to many</p>
-    <p class="documentation-text"><strong>QR Codes database:</strong> Code (id, code text, 
-        code file location, size*, logo url*, gradient type*, block style*, gradient*, starting color gradient*,
-        ending color gradient*, foreground color*, background color*, eye style*, number of validations*,
-        logo size*, user_id)</p>
-    <p class="documentation-text">(* = Optional)</p>
+Users database: User (id, username, hashed password, email, first_name, last_name) -> One to many
+QR Codes database: Code (id, code text, code file location, size*, logo url*, gradient type*, block style*, gradient*, starting color gradient*, ending color gradient*, foreground color*, background color*, eye style*, number of validations*, logo size*, user_id)
+(* = Optional)
 
-<h3>Storage</h3>
+### Storage
 
-    <p class="documentation-text">An initial concern for the project was the storage of the actual 
-        code in a database. After some research, I determined that it would be more efficient to store 
-        the file locally and store the file location in the database. This is how the system has been 
-        implemented.
-    </p>
-
-<h3>Security</h3>
-
-    <p class="documentation-text">Emails and real life names will be protected by hashed and salted 
-        password generation. Likewise, individual codes are tied to individual users for security.</p>
-
-<h3>User Flow</h3>
-
-    <p class="documentation-text">While not signed in, users may access the documentation page (this page), the 
-        registration page, and the login page. This allows potential users to understand the webapp 
-        and register to use it. Current users can simply access the login page to access their own 
-        pages.
-    </p>
-
-    <p class="documentation-text">The "/" or home page of the site will lead to the registration page 
-        by default, unless the user is already logged in. If the user is logged in (or after logging in), 
-        the user will be sent to the user home page, where personal information is available, as well as 
-        all previously created QR Codes.
-    </p>
-
-    <p class="documentation-text">From this page, users may push the "Create a New Code" button to access 
-        the code creation form. Once submitted (if accepted), this new code will be displayed on the user's 
-        home page, as well.
-    </p>
+An initial concern for the project was the storage of the actual code in a database. After some research, I determined that it would be more efficient to store the file locally and store the file location in the database. This is how the system has been implemented.
 
 
-{% endblock %}
+### Security
+
+Emails and real life names will be protected by hashed and salted password generation. Likewise, individual codes are tied to individual users for security.
+
+### User Flow
+
+While not signed in, users may access the documentation page (this page), the registration page, and the login page. This allows potential users to understand the webapp and register to use it. Current users can simply access the login page to access their own pages.
 
 
+The "/" or home page of the site will lead to the registration page by default, unless the user is already logged in. If the user is logged in (or after logging in), the user will be sent to the user home page, where personal information is available, as well as all previously created QR Codes.
+
+From this page, users may push the "Create a New Code" button to access the code creation form. Once submitted (if accepted), this new code will be displayed on the user's home page, as well.
 
 
-
-
-
-
-
-
-
-
-
+_________________________________________________________________________________________________________
 
 
 # Capstone-1 (QR Coder) - (Original Website Plan)

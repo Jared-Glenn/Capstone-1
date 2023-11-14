@@ -7,6 +7,7 @@ import requests
 import asyncio
 from models import db, connect_db, User, Code
 from forms import RegisterForm, LoginForm, CodeForm
+from security import security_headers
 
 app = Flask(__name__)
 
@@ -220,11 +221,8 @@ async def new_code(user_id):
             form_dict["logo_size"] = logo_size
         else:
             logo_size = None
-            
-        print(form_dict)
         
         completed_code = await create_code(form_dict)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{completed_code}!!!!!!!!!!!!!!!!!!!')
         
         new_code = Code(text=text,
                         completed_code=completed_code,
@@ -242,7 +240,6 @@ async def new_code(user_id):
                         logo_size=logo_size,
                         user_id=user_id)
         
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{new_code}!!!!!!!!!!!!!!!!!!!')
         
         db.session.add(new_code)
         db.session.commit()
@@ -257,16 +254,13 @@ async def create_code(params):
     response = await asyncio.to_thread(requests.get,
                                        'https://qrcode-supercharged.p.rapidapi.com/',
                                        params=params,
-                                       headers={
-                                           'X-RapidAPI-Key': '39a572c804mshc607d739b32b3d7p1840eajsnb049ae15f5f7'
-                                       })
+                                       headers= security_headers)
     
     if response.ok:
         with open(f'static/codes/{response.headers["qrcode-file"]}', 'wb') as f:
             f.write(response.content)
         
         file_path = f'/static/codes/{response.headers["qrcode-file"]}'
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!{file_path}!!!!!!!!!!!!!!!!!!!')
         
         return file_path
     else:
