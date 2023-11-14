@@ -85,8 +85,10 @@ button:hover {
 .main-body {
     position: relative;
     top: 105px;
-    margin: 30px;
+    margin: 20px;
     margin-left: 50px;
+    height: 1500px;
+    overflow: scroll;
 }
 
 .form-label {
