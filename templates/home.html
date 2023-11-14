@@ -21,97 +21,124 @@
         Each of the given fields are available for use. If you want to adjust these fields
         from their default, simply input a value matching the criteria below. Otherwise, 
         black fields will use the defaults.
+        <br>
     </p>
 
     <h4>Text</h4>
 
         <p class="documentation-text">
-            (Default = None) This text will be encoded into the QR Code provided. This is often a link of some sort, 
+            This text will be encoded into the QR Code provided. This is often a link of some sort, 
             but can also simply be text.
         </p>
+        <p class="documentation-text"><strong>(Default = None) </strong></p>
+        <br>
 
     <h4>Size</h4>
 
         <p class="documentation-text">
-            (Default = 400) This will determine the size of the file and data returned.
+            This will determine the size of the file and data returned.
         </p>
+        <p class="documentation-text"><strong>(Default = 400) </strong></p>
+        <br>
 
     <h4>Logo URL</h4>
 
         <p class="documentation-text">
-            (Default = None) Input a image url to incorporate into the QR Code.
+            Input a image url to incorporate into the QR Code.
         </p>
+        <p class="documentation-text"><strong>(Default = None) </strong></p>
+        <br>
 
     <h4>Gradient Type</h4>
 
         <p class="documentation-text">
-            (Default = None) Choose from diagonal, horizontal, or vertical. This determines the 
+            Choose from diagonal, horizontal, or vertical. This determines the 
             direction of the gradient.
         </p>
+        <p class="documentation-text"><strong>(Default = None) </strong></p>
+        <br>
 
     <h4>Block Style</h4>
 
         <p class="documentation-text">
-            (Default = None) Choose from square, round, or dot. This determines the appearance of 
+            Choose from square, round, or dot. This determines the appearance of 
             the internal nodes of the code.
         </p>
+        <p class="documentation-text"><strong>(Default = None) </strong></p>
+        <br>
 
     <h4>Gradient</h4>
 
         <p class="documentation-text">
-            (Default = 1) You can set this to 0 to disable the gradient, as well.
+            You can set this to 0 to disable the gradient, as well.
         </p>
+        <p class="documentation-text"><strong>(Default = 1) </strong></p>
+        <br>
 
     <h4>Starting Color for Gradient</h4>
 
         <p class="documentation-text">
-            (Default = FF0000) Input as a hex color code. When a gradient has been selected, the 
+            Input as a hex color code. When a gradient has been selected, the 
             color will start at this hex code.
         </p>
+        <p class="documentation-text"><strong>(Default = FF0000) </strong></p>
+        <br>
 
     <h4>Ending Color for Gradient</h4>
 
         <p class="documentation-text">
-            (Default = 00FF00) Input as a hex color code. When a gradient has been selected, the 
+            Input as a hex color code. When a gradient has been selected, the 
             color will end at this hex code.
         </p>
+        <p class="documentation-text"><strong>(Default = 00FF00) </strong></p>
+        <br>
 
     <h4>Foreground Color</h4>
 
         <p class="documentation-text">
-            (Default = FF0000) Input as a hex color code. Determines the color of the nodes for the 
+            Input as a hex color code. Determines the color of the nodes for the 
             output.
         </p>
+        <p class="documentation-text"><strong>(Default = FF0000) </strong></p>
+        <br>
 
     <h4>Background Color</h4>
 
         <p class="documentation-text">
-            (Default = FFFFFF) Input as a hex color code. Determines the color of the space between the 
+            Input as a hex color code. Determines the color of the space between the 
             nodes for the output.
         </p>
+        <p class="documentation-text"><strong>(Default = FFFFFF) </strong></p>
+        <br>
 
     <h4>Eye Style</h4>
 
         <p class="documentation-text">
-            (Default = None) Choose between circle and square. Determines the shape of the larger exterior 
+            Choose between circle and square. Determines the shape of the larger exterior 
             nodes that provide a focus for the camera.
         </p>
+        <p class="documentation-text"><strong>(Default = None) </strong></p>
+        <br>
 
     <h4>Validations</h4>
 
         <p class="documentation-text">
-            (Default = 0) Determines how thorough you want the QR Code to be validated. This includes 
+            Determines how thorough you want the QR Code to be validated. This includes 
             checks on its readability, color composition, and logo selection. The more validations you 
             include, the more likely that your design will be rejected and not delivered by the API.
         </p>
+        <p class="documentation-text"><strong>(Default = 0) </strong></p>
+        <br>
 
     <h4>Logo Size</h4>
 
         <p class="documentation-text">
-            (Default = 0.22) Determines how much space the logo will occupy in the code. For simple 
+            Determines how much space the logo will occupy in the code. For simple 
             text inputs, the size of the logo may larger, but more complex URLs may struggle with 
             larger logos.
         </p>
+        <p class="documentation-text"><strong>(Default = 0.22) </strong></p>
+        <br>
 
 <h2>Project Outline</h2>
 
@@ -125,31 +152,37 @@
         logo size*, user_id)</p>
     <p class="documentation-text">(* = Optional)</p>
 
-<h3>Issues</h3>
+<h3>Storage</h3>
 
-    <p class="documentation-text">Generating and storing the actual QR Code, along with custom attributes could be 
-        data-intensive. That will be among the first things I investigate. Once the code 
-        is generated, how is the data delivered and how can I render it on my webpage?</p>
+    <p class="documentation-text">An initial concern for the project was the storage of the actual 
+        code in a database. After some research, I determined that it would be more efficient to store 
+        the file locally and store the file location in the database. This is how the system has been 
+        implemented.
+    </p>
 
 <h3>Security</h3>
 
-    <p class="documentation-text">Emails and real life names will be protected by hashed and salted password generation. 
-        The actual QR Codes will likely be publically available on a gallary to inspire new 
-        creators.</p>
+    <p class="documentation-text">Emails and real life names will be protected by hashed and salted 
+        password generation. Likewise, individual codes are tied to individual users for security.</p>
 
 <h3>User Flow</h3>
 
-    <p class="documentation-text">The home page will allow a user to create a custom QR code using the qrcode-monkey API, 
-        but also contain a link to register or login. The user will be warned that, while not 
-        signed in, all generated QR Codes will not be stored by the site.</p>
+    <p class="documentation-text">While not signed in, users may access the documentation page (this page), the 
+        registration page, and the login page. This allows potential users to understand the webapp 
+        and register to use it. Current users can simply access the login page to access their own 
+        pages.
+    </p>
 
-    <p class="documentation-text">A registration page and login page will give users access to their own personal information 
-        and a personal gallary of their created QR codes. You can also navigate back to the home 
-        page, which will now store generated QR codes under the user's user_id.</p>
+    <p class="documentation-text">The "/" or home page of the site will lead to the registration page 
+        by default, unless the user is already logged in. If the user is logged in (or after logging in), 
+        the user will be sent to the user home page, where personal information is available, as well as 
+        all previously created QR Codes.
+    </p>
 
-    <p class="documentation-text">An additional page will add QR codes as they are generated by the community, mixing random 
-        QR codes onto the page, with parameters for how they were created. This page is meant to 
-        inspire creators to try a new style.</p>
+    <p class="documentation-text">From this page, users may push the "Create a New Code" button to access 
+        the code creation form. Once submitted (if accepted), this new code will be displayed on the user's 
+        home page, as well.
+    </p>
 
 
 {% endblock %}

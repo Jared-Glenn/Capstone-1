@@ -4,6 +4,11 @@ body {
     font-family: 'Orbitron', sans-serif;;
 }
 
+h4 {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -49,6 +54,7 @@ button:hover {
     margin: 0;
     padding-top: 10px;
     padding-left:10px;
+    z-index: 99999;
 }
 
 .topnav-button {
@@ -87,8 +93,7 @@ button:hover {
     top: 105px;
     margin: 20px;
     margin-left: 50px;
-    height: 1500px;
-    overflow: scroll;
+    padding-bottom: 80px;
 }
 
 .form-label {
