@@ -7,7 +7,6 @@ import requests
 import asyncio
 from models import db, connect_db, User, Code
 from forms import RegisterForm, LoginForm, CodeForm
-from security import security_headers
 
 app = Flask(__name__)
 
@@ -254,7 +253,9 @@ async def create_code(params):
     response = await asyncio.to_thread(requests.get,
                                        'https://qrcode-supercharged.p.rapidapi.com/',
                                        params=params,
-                                       headers= security_headers)
+                                       headers= {
+                'X-RapidAPI-Key': '39a572c804mshc607d739b32b3d7p1840eajsnb049ae15f5f7'
+})
     
     if response.ok:
         with open(f'static/codes/{response.headers["qrcode-file"]}', 'wb') as f:
