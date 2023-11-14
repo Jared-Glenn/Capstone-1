@@ -16,11 +16,11 @@
         <div class="topnav-button">
             <a href="/">
                 <p class="topbar-logo"><i class="fa-solid fa-vector-square"></i></p>
-                <p class="topbar-text">QR CodeR</p>
+                <p class="topbar-text">qr CodeR</p>
                 </a>
         </div>
         <div class="topnav-button">
-            <a href="/">
+            <a href="/home">
             <p class="topbar-logo"><i class="fa-solid fa-house fa"></i></p>
               <p class="topbar-text">Home</p>
               </a>
@@ -28,8 +28,6 @@
         <div class="topbar-right">
         {% if user %}
             <p>User: {{ user.username }} - <a href="/logout">logout</a></p>
-        {% else %}
-            <p>WORKING</p>
         {% endif %}
         </div>
     </div>

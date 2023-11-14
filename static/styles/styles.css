@@ -33,6 +33,12 @@ button:hover {
     border-color: brown;
 }
 
+.new-code-button {
+    width: 200px;
+    height: 50px;
+    font-size: 20px;
+}
+
 .topnav {
     width: 100%;
     height: 100px;
@@ -79,7 +85,8 @@ button:hover {
 .main-body {
     position: relative;
     top: 105px;
-    margin: 20px;
+    margin: 30px;
+    margin-left: 50px;
 }
 
 .form-label {
@@ -102,4 +109,8 @@ button:hover {
 .code-text {
     text-align: left;
     font-size: 15px;
+}
+
+.documentation-text {
+    font-family: 'Courier New', Courier, monospace;
 }

@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>qr CodeR</h1>
+
+<h3>Website Functions</h3>
+
+<ul>
+    <li class="documentation-text">Connects to the 
+        <a href="https://rapidapi.com/restyler/api/qrcode-supercharged">qrcode-supercharged API</a> 
+        to create new QR codes for users.</li>
+        <li class="documentation-text">Offer several optional customization options that can alter
+            the QR Code, including image integration and foreground and background colors.</li>
+    <li class="documentation-text">Stores created QR codes by user for ease of access.</li>
+</ul>
+
+<h3>Code Creator Inputs</h3>
+
+    <p class="documentation-text">
+        Each of the given fields are available for use. If you want to adjust these fields
+        from their default, simply input a value matching the criteria below. Otherwise, 
+        black fields will use the defaults.
+    </p>
+
+    <h4>Text</h4>
+
+        <p class="documentation-text">
+            (Default = None) This text will be encoded into the QR Code provided. This is often a link of some sort, 
+            but can also simply be text.
+        </p>
+
+    <h4>Size</h4>
+
+        <p class="documentation-text">
+            (Default = 400) This will determine the size of the file and data returned.
+        </p>
+
+    <h4>Logo URL</h4>
+
+        <p class="documentation-text">
+            (Default = None) Input a image url to incorporate into the QR Code.
+        </p>
+
+    <h4>Gradient Type</h4>
+
+        <p class="documentation-text">
+            (Default = None) Choose from diagonal, horizontal, or vertical. This determines the 
+            direction of the gradient.
+        </p>
+
+    <h4>Block Style</h4>
+
+        <p class="documentation-text">
+            (Default = None) Choose from square, round, or dot. This determines the appearance of 
+            the internal nodes of the code.
+        </p>
+
+    <h4>Gradient</h4>
+
+        <p class="documentation-text">
+            (Default = 1) You can set this to 0 to disable the gradient, as well.
+        </p>
+
+    <h4>Starting Color for Gradient</h4>
+
+        <p class="documentation-text">
+            (Default = FF0000) Input as a hex color code. When a gradient has been selected, the 
+            color will start at this hex code.
+        </p>
+
+    <h4>Ending Color for Gradient</h4>
+
+        <p class="documentation-text">
+            (Default = 00FF00) Input as a hex color code. When a gradient has been selected, the 
+            color will end at this hex code.
+        </p>
+
+    <h4>Foreground Color</h4>
+
+        <p class="documentation-text">
+            (Default = FF0000) Input as a hex color code. Determines the color of the nodes for the 
+            output.
+        </p>
+
+    <h4>Background Color</h4>
+
+        <p class="documentation-text">
+            (Default = FFFFFF) Input as a hex color code. Determines the color of the space between the 
+            nodes for the output.
+        </p>
+
+    <h4>Eye Style</h4>
+
+        <p class="documentation-text">
+            (Default = None) Choose between circle and square. Determines the shape of the larger exterior 
+            nodes that provide a focus for the camera.
+        </p>
+
+    <h4>Validations</h4>
+
+        <p class="documentation-text">
+            (Default = 0) Determines how thorough you want the QR Code to be validated. This includes 
+            checks on its readability, color composition, and logo selection. The more validations you 
+            include, the more likely that your design will be rejected and not delivered by the API.
+        </p>
+
+    <h4>Logo Size</h4>
+
+        <p class="documentation-text">
+            (Default = 0.22) Determines how much space the logo will occupy in the code. For simple 
+            text inputs, the size of the logo may larger, but more complex URLs may struggle with 
+            larger logos.
+        </p>
+
+<h2>Project Outline</h2>
+
+<h3>Schema</h3>
+
+    <p class="documentation-text"><strong>Users database:</strong> User (id, username, hashed password, 
+        email, first_name, last_name) -> One to many</p>
+    <p class="documentation-text"><strong>QR Codes database:</strong> Code (id, code text, 
+        code file location, size*, logo url*, gradient type*, block style*, gradient*, starting color gradient*,
+        ending color gradient*, foreground color*, background color*, eye style*, number of validations*,
+        logo size*, user_id)</p>
+    <p class="documentation-text">(* = Optional)</p>
+
+<h3>Issues</h3>
+
+    <p class="documentation-text">Generating and storing the actual QR Code, along with custom attributes could be 
+        data-intensive. That will be among the first things I investigate. Once the code 
+        is generated, how is the data delivered and how can I render it on my webpage?</p>
+
+<h3>Security</h3>
+
+    <p class="documentation-text">Emails and real life names will be protected by hashed and salted password generation. 
+        The actual QR Codes will likely be publically available on a gallary to inspire new 
+        creators.</p>
+
+<h3>User Flow</h3>
+
+    <p class="documentation-text">The home page will allow a user to create a custom QR code using the qrcode-monkey API, 
+        but also contain a link to register or login. The user will be warned that, while not 
+        signed in, all generated QR Codes will not be stored by the site.</p>
+
+    <p class="documentation-text">A registration page and login page will give users access to their own personal information 
+        and a personal gallary of their created QR codes. You can also navigate back to the home 
+        page, which will now store generated QR codes under the user's user_id.</p>
+
+    <p class="documentation-text">An additional page will add QR codes as they are generated by the community, mixing random 
+        QR codes onto the page, with parameters for how they were created. This page is meant to 
+        inspire creators to try a new style.</p>
+
+
+{% endblock %}

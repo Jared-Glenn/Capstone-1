@@ -24,11 +24,26 @@ db.create_all()
 bcrypt = Bcrypt()
 
 
-# Main page
+# Start page
 
 @app.route('/')
-def home():
+def start():
     """User homepage. Redirects to Register."""
+    
+    if "user_id" not in session:
+        return render_template('home.html')
+    
+    user_id = session["user_id"]
+    user = User.query.get_or_404(user_id)
+    
+    return render_template('home.html', user=user)
+    
+
+# Home page
+
+@app.route('/home')
+def home():
+    """Documentation on the site."""
     
     if "user_id" not in session:
         return redirect('/register')
@@ -36,7 +51,7 @@ def home():
     user_id = session["user_id"]
     
     return redirect(f'/users/{user_id}')
-    
+
 
 # Registration page
 
